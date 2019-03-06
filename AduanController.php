@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\Http\Requests\Aduan\StoreRequest;
+
 use Illuminate\Support\Facades\Auth;
 
 use Carbon\Carbon;
@@ -12,6 +14,13 @@ use App\Models\Aduan;
 
 class AduanController extends Controller
 {
+
+    public function __construct () 
+    {
+        // $this->middleware (['auth']);
+        $this->middleware (['auth', 'role:admin']);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -54,7 +63,7 @@ class AduanController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
         //
         // dd ($request);
@@ -77,7 +86,7 @@ class AduanController extends Controller
      */
     public function show($id)
     {
-        $aduan = Aduan::find ($id);
+        $aduan = Aduan::with('user')->find ($id);
 
         // dd ($aduan);
 
@@ -116,7 +125,7 @@ class AduanController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(StoreRequest $request, $id)
     {
         //
         
